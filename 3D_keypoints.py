@@ -235,11 +235,12 @@ if __name__ == "__main__":
 
         if not (ret1 and ret2 and ret3 and ret4):
             break
-
-        vis = frameConcatenate(frame1, frame2, frame3, frame4, 720, 1280)
-        vis = cv2.resize(vis, (1280, 720))
-        cv2.imshow("videos", vis)
-        cv2.waitKey(1)
+        
+        if config['visualize']:
+            vis = frameConcatenate(frame1, frame2, frame3, frame4, 720, 1280)
+            vis = cv2.resize(vis, (1280, 720))
+            cv2.imshow("videos", vis)
+            cv2.waitKey(1)
 
     x_3d = []
     y_3d = []
@@ -253,7 +254,10 @@ if __name__ == "__main__":
     x_3d = baseball_interpolation(x_3d)
     y_3d = baseball_interpolation(y_3d)
     z_3d = baseball_interpolation(z_3d)
-    writeJson(x_3d, y_3d, z_3d)
+    
+    print(f"cam1: {videos[0]}, cam2: {videos[1]}, cam3: {videos[2]}, cam4: {videos[3]}")
+    if config["save_keypoints"]:
+        writeJson(x_3d, y_3d, z_3d)
     
 
 

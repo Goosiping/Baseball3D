@@ -26,7 +26,7 @@ def getDatetime():
     return loc_dt_format
 
 def writeJson(xList, yList, zList):
-    filepath = os.path.join('outputs', 'keypoints.json')
+    filepath = os.path.join('outputs', 'baseball_motion.json')
     data = {}
     data['x'] = xList
     data['y'] = yList

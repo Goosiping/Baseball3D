@@ -5,7 +5,7 @@ import time
 
 if __name__ == "__main__":
 
-    f = open('./outputs/2.json')
+    f = open('./outputs/keypoints.json')
     data = json.load(f)
 
     xs = np.array(data['x'])
@@ -29,7 +29,7 @@ if __name__ == "__main__":
     ax.set_ylim([c_min, c_max])
     ax.set_zlim([c_min, c_max])
 
-    for i in range(340, len(xs)):
+    for i in range(261, len(xs)):
         ax.scatter(xs[i], ys[i], zs[i], c='r', marker='o')
         plt.show(block=False)
         plt.pause(0.1)
