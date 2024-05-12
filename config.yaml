@@ -1,4 +1,4 @@
-video_folder: './inputs/videos/'
+video_folder: './inputs/videos1/'
 camera_parameters: './inputs/camera_parameters/Example1'
 calibration_videos: './inputs/calibration/'
 output_foldr: './outputs/'

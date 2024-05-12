@@ -96,10 +96,18 @@ if __name__ == "__main__":
             x2 = int(x2)
             y1 = int(y1)
             y2 = int(y2)
+
             
             if score > detection_threshold:
                 is_detect_1 = True
                 cam1_kpts2d = ((int((x1+x2)/2), int((y1+y2)/2)))
+                # text
+                cv2.rectangle(frame1, (int(x1 - 2), int(y1 - 20)), (int(x1 + 150), int(y1)), color_dict[int(class_id)], cv2.FILLED)
+                cv2.putText(frame1, class_name_dict[int(class_id)] + ": " + str(round(score, 2)), (int(x1), int(y1 - 5)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
+
+                # bbox
+                cv2.rectangle(frame1, (int(x1), int(y1)), (int(x2), int(y2)), color_dict[int(class_id)], 2)
+                cv2.circle(frame1, cam1_kpts2d, 1, color_dict[int(class_id)], 2)
 
         ''' ------------- '''
         ''' SECOND CAMERA '''
@@ -122,10 +130,18 @@ if __name__ == "__main__":
             x2 = int(x2)
             y1 = int(y1)
             y2 = int(y2)
+
             
             if score > detection_threshold:
                 is_detect_2 = True
-                cam2_kpts2d = ((int((x1+x2)/2), int((y1+y2)/2)))              
+                cam2_kpts2d = ((int((x1+x2)/2), int((y1+y2)/2)))     
+                # text
+                cv2.rectangle(frame2, (int(x1 - 2), int(y1 - 20)), (int(x1 + 150), int(y1)), color_dict[int(class_id)], cv2.FILLED)
+                cv2.putText(frame2, class_name_dict[int(class_id)] + ": " + str(round(score, 2)), (int(x1), int(y1 - 5)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
+
+                # bbox
+                cv2.rectangle(frame2, (int(x1), int(y1)), (int(x2), int(y2)), color_dict[int(class_id)], 2)
+                cv2.circle(frame2, cam2_kpts2d, 1, color_dict[int(class_id)], 2)         
         
         ''' ------------ '''
         ''' THIRD CAMERA '''
@@ -148,10 +164,18 @@ if __name__ == "__main__":
             x2 = int(x2)
             y1 = int(y1)
             y2 = int(y2)
+
             
             if score > detection_threshold:
                 is_detect_3 = True
                 cam3_kpts2d = ((int((x1+x2)/2), int((y1+y2)/2)))  
+                # text
+                cv2.rectangle(frame3, (int(x1 - 2), int(y1 - 20)), (int(x1 + 150), int(y1)), color_dict[int(class_id)], cv2.FILLED)
+                cv2.putText(frame3, class_name_dict[int(class_id)] + ": " + str(round(score, 2)), (int(x1), int(y1 - 5)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
+
+                # bbox
+                cv2.rectangle(frame3, (int(x1), int(y1)), (int(x2), int(y2)), color_dict[int(class_id)], 2)
+                cv2.circle(frame3, cam3_kpts2d, 1, color_dict[int(class_id)], 2)
         
 
         ''' ------------ '''
@@ -175,10 +199,18 @@ if __name__ == "__main__":
             x2 = int(x2)
             y1 = int(y1)
             y2 = int(y2)
+
             
             if score > detection_threshold:
                 is_detect_4 = True
                 cam4_kpts2d = ((int((x1+x2)/2), int((y1+y2)/2))) 
+                # text
+                cv2.rectangle(frame4, (int(x1 - 2), int(y1 - 20)), (int(x1 + 150), int(y1)), color_dict[int(class_id)], cv2.FILLED)
+                cv2.putText(frame4, class_name_dict[int(class_id)] + ": " + str(round(score, 2)), (int(x1), int(y1 - 5)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
+
+                # bbox
+                cv2.rectangle(frame4, (int(x1), int(y1)), (int(x2), int(y2)), color_dict[int(class_id)], 2)
+                cv2.circle(frame4, cam4_kpts2d, 1, color_dict[int(class_id)], 2)
 
         # Predict 3D keypoints
         projection_matrices = []
@@ -187,6 +219,7 @@ if __name__ == "__main__":
             if eval(f"is_detect_{i}"):
                 projection_matrices.append(eval(f"P{i}"))
                 keypoints.append(eval(f"cam{i}_kpts2d"))
+                print(eval(f"cam{i}_kpts2d"), frame1.shape, frame2.shape, frame3.shape, frame4.shape)
         
         if len(projection_matrices) == 2:
             keypoints_3d = two_DLT(projection_matrices[0], projection_matrices[1], keypoints[0], keypoints[1])
@@ -202,6 +235,11 @@ if __name__ == "__main__":
 
         if not (ret1 and ret2 and ret3 and ret4):
             break
+
+        vis = frameConcatenate(frame1, frame2, frame3, frame4, 720, 1280)
+        vis = cv2.resize(vis, (1280, 720))
+        cv2.imshow("videos", vis)
+        cv2.waitKey(1)
 
     x_3d = []
     y_3d = []

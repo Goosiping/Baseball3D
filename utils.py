@@ -5,6 +5,21 @@ import torch
 import datetime
 import numpy as np
 
+def frameConcatenate(f1, f2, f3, f4, h, w):
+    dim = (w, h)
+    
+    f1 = cv2.resize(f1, dim, interpolation=cv2.INTER_AREA)
+    f2 = cv2.resize(f2, dim, interpolation=cv2.INTER_AREA)
+    f3 = cv2.resize(f3, dim, interpolation=cv2.INTER_AREA)
+    f4 = cv2.resize(f4, dim, interpolation=cv2.INTER_AREA)
+    background = cv2.resize(f1, (2*w, 2*h), interpolation=cv2.INTER_AREA)
+    background[0:h, 0:w] = f1
+    background[0:h, w:2*w] = f2
+    background[h:2*h, 0:w] = f3
+    background[h:2*h, w:2*w] = f4
+    
+    return (background)
+
 def getDatetime():
     loc_dt = datetime.datetime.today() 
     loc_dt_format = loc_dt.strftime("%Y/%m/%d %H:%M:%S")
