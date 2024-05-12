@@ -6,3 +6,5 @@ This project aims to predict the 3D position of the baseball in the given videos
 pip install ultralytics
 pip install opencv-python
 ```
+Yolov8 Model:
+https://drive.google.com/drive/folders/14fU0GmTeLZtv6alt8BWn_M4gG24PFbuK?usp=drive_link
