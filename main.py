@@ -1,3 +1,4 @@
+import sys
 import cv2
 import os
 import yaml
@@ -45,12 +46,14 @@ if __name__ == "__main__":
     color_dict = {0: (225, 25, 102), 1: (102, 210, 13), 2: (15, 185, 255)}
     detection_threshold = config["yolo_threshold"]
 
-    video_folder = config["video_folder"]
-    print(video_folder)
+    parent_folder = config["parent_folder"]
+    video_folder = os.listdir(parent_folder)[-1]
+    # print(video_folder)
+    video_folder = os.path.join(parent_folder, video_folder, 'synchronized')
     videos = os.listdir(video_folder)
-    print(videos)
+    print("INFO: video folder:", video_folder, videos)
+    # sys.exit(0)
 
-    return
 
     # Projection matrices
     print("INFO: Loading projection matrices...")

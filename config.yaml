@@ -1,5 +1,5 @@
-video_folder: './inputs/videos/'
-camera_parameters: './inputs/camera_parameters/Example3'
+parent_folder: 'D:/GoProMocapSystem/data'
+camera_parameters: 'D:/AruCo_Calibration-main/camera_matrix/Example'
 calibration_videos: './inputs/calibration/'
 output_foldr: './outputs/'
 model: './models/best.pt'
