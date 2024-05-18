@@ -39,22 +39,28 @@ if __name__ == "__main__":
     config = yaml.safe_load(open("config.yaml"))
 
     # Init
+    print("INFO: Loading model...")
     model = YOLO(config["model"])
     class_name_dict = {0: "baseball"}
     color_dict = {0: (225, 25, 102), 1: (102, 210, 13), 2: (15, 185, 255)}
     detection_threshold = config["yolo_threshold"]
 
     video_folder = config["video_folder"]
+    print(video_folder)
     videos = os.listdir(video_folder)
-    # print(videos)
+    print(videos)
+
+    return
 
     # Projection matrices
+    print("INFO: Loading projection matrices...")
     P1 = get_projection_matrix(1, config["camera_parameters"] + "/")
     P2 = get_projection_matrix(2, config["camera_parameters"] + "/")
     P3 = get_projection_matrix(3, config["camera_parameters"] + "/")
     P4 = get_projection_matrix(4, config["camera_parameters"] + "/")
 
     # Read videos
+    print("INFO: Reading videos...")
     cap1 = cv2.VideoCapture(os.path.join(video_folder, videos[0]))
     cap2 = cv2.VideoCapture(os.path.join(video_folder, videos[1]))
     cap3 = cv2.VideoCapture(os.path.join(video_folder, videos[2]))
@@ -63,6 +69,7 @@ if __name__ == "__main__":
 
     # Predict bounding boxes
     frame_3ds = []
+    print("INFO: Processing every frame...")
     while True:
         
         is_detect_1 = False
