@@ -1,10 +1,11 @@
-video_folder: './inputs/videos/'
-camera_parameters: './inputs/camera_parameters/Example3'
+video_folder: './inputs/bat_and_ball/'
+camera_parameters: './inputs/camera_parameters/Example2'
 calibration_videos: './inputs/calibration/'
 output_foldr: './outputs/'
 model: './models/best.pt'
 
 visualize: True
-save_keypoints: True
+save_keypoints: False
+save_video: True
 
 yolo_threshold: 0.5

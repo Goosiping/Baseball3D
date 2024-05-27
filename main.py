@@ -37,6 +37,9 @@ def interpolate_sublist(sublist):
 if __name__ == "__main__":
 
     config = yaml.safe_load(open("config.yaml"))
+    save_video = config["save_video"]
+    save_keypoints = config["save_keypoints"]
+    visulize = config["visualize"]
 
     # Init
     model = YOLO(config["model"])
@@ -60,6 +63,12 @@ if __name__ == "__main__":
     cap3 = cv2.VideoCapture(os.path.join(video_folder, videos[2]))
     cap4 = cv2.VideoCapture(os.path.join(video_folder, videos[3]))
     caps = [cap1, cap2, cap3, cap4]
+
+    # Video writer
+    fps = cap1.get(cv2.CAP_PROP_FPS)
+    if save_video:
+        print(f"INFO: video writer with fps:{fps}")
+        video_writer = cv2.VideoWriter(os.path.join('outputs', 'output.mp4'), cv2.VideoWriter_fourcc(*'mp4v'), fps, (1280, 720))
 
     # Predict bounding boxes
     frame_3ds = []
@@ -236,11 +245,16 @@ if __name__ == "__main__":
         if not (ret1 and ret2 and ret3 and ret4):
             break
         
-        if config['visualize']:
+        if visulize:
             vis = frameConcatenate(frame1, frame2, frame3, frame4, 720, 1280)
             vis = cv2.resize(vis, (1280, 720))
             cv2.imshow("videos", vis)
             cv2.waitKey(1)
+
+        if save_video:
+            vis = frameConcatenate(frame1, frame2, frame3, frame4, 720, 1280)
+            vis = cv2.resize(vis, (1280, 720))
+            video_writer.write(vis)
 
     x_3d = []
     y_3d = []
@@ -256,8 +270,11 @@ if __name__ == "__main__":
     z_3d = baseball_interpolation(z_3d)
     
     print(f"cam1: {videos[0]}, cam2: {videos[1]}, cam3: {videos[2]}, cam4: {videos[3]}")
-    if config["save_keypoints"]:
+    if save_keypoints:
         writeJson(x_3d, y_3d, z_3d)
+    
+    if save_video:
+        video_writer.release()
     
 
 
